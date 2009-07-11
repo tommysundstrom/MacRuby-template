@@ -9,6 +9,9 @@
 # Loading the Cocoa framework. If you need to load more frameworks, you can
 # do that here too.
 framework 'Cocoa'
+NSLog "--- rb_main.rb ---"
+NSLog "Ruby version: #{RUBY_VERSION}. MacRuby version: #{MACRUBY_VERSION}." # Note: If this is not runned
+      # with MacRuby an error will be raised here. 
 
 # Loading all the Ruby project files.
 dir_path = NSBundle.mainBundle.resourcePath.fileSystemRepresentation
