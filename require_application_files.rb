@@ -5,16 +5,36 @@
 require 'osx/cocoa'
 require 'rubygems'  # (not used here, but will probably come in useful in a lot of places.
 $LOAD_PATH << File.join(File.dirname(__FILE__), 'app/standardutilities') # To be able to require log
+$LOAD_PATH << File.join(File.dirname(__FILE__), 'third-party/gems/gems/log4r-1.0.5/src/') # Needed by log (This is a workaround around MacRubys buggy gem-handling)
 require 'log'
 
 #OSX::NSLog "require_app_files loaded" # TEST
 
-module Require_app_files
+module Require_application_files
   LOG = Log::classlog(self)
   NAMEBODYS = []   # Used to check aginst duplicate names.  
 
+  # Add third-party gems and lib to $LOAD_PATH
+  #   The gem part is a bit of a workaround, due to buggy handling of gems in MacRuby 0.4
+  #   IMPORTANT: every gem has to be added manualy here.
+  def Require_application_files.require_third_party_gems_and_lib(project_root)
+    $LOAD_PATH << "/Users/Tommy/Library/Application Support/Developer/Shared/Xcode/Project Templates/Application/MacRuby Application Tommy/third-party/gems/gems/log4r-1.0.5/src/"
+    # $LOAD_PATH << File.join(third_party_gems(project_root), "log4r-1.0.5/src")
+    require 'log4r'
+  end
+
+
+
+  def third_party_gems(project_root)
+    return File.join(project_root, 'third-party/gems/gems')
+  end
+
+  def third_party_lib(project_root)
+    return File.join(project_root, 'third-party/lib')
+  end
+
   # Add app-dir and all its sub-dirs to $LOAD_PATH
-  def Require_app_files.add_to_load_path(context_dir)
+  def Require_application_files.add_to_load_path(context_dir)
     raise "'#{context_dir}' does not seam to exist." unless File.exist?(context_dir)
     raise "Must be a directory." unless File.directory?(context_dir)
 
@@ -34,14 +54,14 @@ module Require_app_files
   end
 
   # Requires standardutilites (so that ordinary rb files does not have to think about requiering them)
-  def Require_app_files.require_standardutilities
+  def Require_application_files.require_standardutilities
     # Assumes that 'add_to_load_path' has been runned
     require 'log'
     require 'pathstring'
   end
 
   # Recursively require all rb files
-  def Require_app_files.require_all(context_dir)
+  def Require_application_files.require_all(context_dir)
     raise "'#{context_dir}' does not seam to exist." unless File.exist?(context_dir)
     raise "Must be a directory." unless File.directory?(context_dir)
 

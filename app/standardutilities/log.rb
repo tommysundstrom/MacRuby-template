@@ -6,7 +6,6 @@
 #
 # See require_app_files for example of usage
 
-require 'osx/cocoa'
 require 'pathstring'
 require 'rubygems'
 require 'log4r'
