@@ -98,7 +98,7 @@ module Require_application_files
 
   # Stuff from Fenestras path-setting, to make debuild builds work with the rb files in root, not in the build.
   #     (This works around Xcodes bug to not copy changed items inside physical folders.)
-  TODO Det här är inte implementerat i koden ovan ännu!!!!!!!!!
+  # TODO (3) Det här är inte implementerat i koden ovan ännu!!!!!!!!!
   begin
     def self.root_for_ruby_files
       if debug_build?
