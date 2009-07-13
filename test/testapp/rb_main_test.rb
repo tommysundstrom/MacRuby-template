@@ -3,8 +3,6 @@ require 'rubygems'
 require 'shoulda'
 require 'assert2'
 
-require 'osx/cocoa'
-
 class Rb_main_Test < Test::Unit::TestCase
 
   # Called before every test method runs. Can be used

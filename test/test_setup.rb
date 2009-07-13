@@ -1,19 +1,18 @@
 require 'rubygems'
-require 'osx/cocoa'
 
 OSX::NSLog '---------- test started ----------'
 
 # Some paths, etc.
-me = File.expand_path(__FILE__)
-test_root = File.dirname(me)
-top_dir = File.dirname(test_root) # (Note: This way to
+ME = File.expand_path(__FILE__)
+TEST_ROOT = File.dirname(ME)
+PROJECT_ROOT = File.dirname(TEST_ROOT) # (Note: This way to
       # find root is not safe inside the application, but here in test it's ok)
-require File.join(top_dir, 'require_application_files.rb')  # The module that handles application file loading
-app_root = File.join(top_dir, 'app')
-Require_application_files::add_to_load_path(app_root)
+require File.join(PROJECT_ROOT, 'require_application_files.rb')  # The module that handles application file loading
+APP_ROOT = File.join(PROJECT_ROOT, 'app')
+Require_application_files::require_third_party_gems_and_lib(PROJECT_ROOT)
+Require_application_files::add_to_load_path(APP_ROOT)
 Require_application_files::require_standardutilities
-Require_application_files::require_all(app_root)
-
+Require_application_files::require_all(APP_ROOT)
 
 # This loads the application files the same way as it's done
       # when rb_main loads them.
@@ -33,11 +32,11 @@ end
 
 # Set up paths
 #   For stuff in sandbox
-sandbox = File.join(test_root, 'sandbox')
-new_gem_path = Gem.path + [sandbox]
+SANDBOX = File.join(TEST_ROOT, 'sandbox')
+new_gem_path = Gem.path + [SANDBOX]
 Gem.use_paths(nil, new_gem_path)
 #   For stuff in sandbox lib
-$LOAD_PATH << File.join(sandbox, 'lib')
+$LOAD_PATH << File.join(SANDBOX, 'lib')
 #   For other stuff
 $: << '.'  # To load files like 'test/util'
 
